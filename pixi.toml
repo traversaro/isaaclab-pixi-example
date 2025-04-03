@@ -1,0 +1,53 @@
+[project]
+authors = ["Silvio Traversaro <silvio@traversaro.it>"]
+channels = ["conda-forge"]
+name = "isaacsim-pixi-example"
+platforms = ["win-64", "linux-64"]
+
+[system-requirements]
+cuda = "12"
+# isaacsim requires glibc 2.34+, let's make the solver aware
+libc = { family = "glibc", version = "2.34" }
+
+[tasks]
+
+[dependencies]
+# As of mid 2025, isaacsim only supports Python 3.10
+python = "3.10.*"
+
+# isaacsim 4.5.0 requires numpy < 2.0
+numpy = "<2.0"
+
+# isaaclab v2.0.2 requires pillow 11.0.0
+pillow = "==11.0.0"
+
+# Let's use CUDA 12
+cuda-version = "12.*"
+
+# Dependencies listed in https://github.com/isaac-sim/IsaacLab/blob/v2.0.2/docs/source/setup/installation/pip_installation.rst
+pytorch = { version = "2.5.1.*", build = "*cuda*" }
+torchvision = { version = "0.20.1.*", build = "*cuda*" }
+
+# Build dependencies of from source install
+setuptools = "*"
+wheel = "*"
+toml = "*"
+
+[pypi-options]
+extra-index-urls = ["https://pypi.nvidia.com"]
+# The setup is already fragile, let's make sure that setuptools is locked,
+# see https://github.com/prefix-dev/pixi/issues/3427
+no-build-isolation = ["isaacsim", "isaaclab", "isaaclab_assets", "isaaclab_mimic", "isaaclab_rl", "isaaclab_tasks"]
+
+[pypi-dependencies]
+isaacsim = { version = "==4.5.0", extras = ["all", "extscache"] }
+
+# isaaclab does not have a single pypi package, but different pypi
+# packages nested that need to be manually installed, if you update
+# the isaaclab version, ensure that all the folders are listed here
+# and all the required extra are updated
+isaaclab = { git = "https://github.com/isaac-sim/IsaacLab.git", rev = "v2.0.2", subdirectory = "source/isaaclab" }
+isaaclab_assets = { git = "https://github.com/isaac-sim/IsaacLab.git", rev = "v2.0.2", subdirectory = "source/isaaclab_assets" }
+isaaclab_mimic = { git = "https://github.com/isaac-sim/IsaacLab.git", rev = "v2.0.2", subdirectory = "source/isaaclab_mimic", extras = ["all"] }
+isaaclab_rl = { git = "https://github.com/isaac-sim/IsaacLab.git", rev = "v2.0.2", subdirectory = "source/isaaclab_rl", extras = ["all"] }
+isaaclab_tasks = { git = "https://github.com/isaac-sim/IsaacLab.git", rev = "v2.0.2", subdirectory = "source/isaaclab_tasks" }
