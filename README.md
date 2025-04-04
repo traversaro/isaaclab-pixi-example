@@ -5,5 +5,6 @@ First of all, make sure that your computer respect the minim spec required to ru
 ~~~
 git clone https://github.com/traversaro/isaaclab-pixi-example/
 cd isaaclab-pixi-example
+./download_isaaclab.sh
 pixi run isaacsim
 ~~~
