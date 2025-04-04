@@ -11,6 +11,7 @@ libc = { family = "glibc", version = "2.34" }
 
 [tasks]
 
+
 [dependencies]
 # As of mid 2025, isaacsim only supports Python 3.10
 python = "3.10.*"
@@ -32,6 +33,7 @@ torchvision = { version = "0.20.1.*", build = "*cuda*" }
 setuptools = "*"
 wheel = "*"
 toml = "*"
+pytest = ">=8.3.5,<9"
 
 [pypi-options]
 extra-index-urls = ["https://pypi.nvidia.com"]
@@ -46,8 +48,17 @@ isaacsim = { version = "==4.5.0", extras = ["all", "extscache"] }
 # packages nested that need to be manually installed, if you update
 # the isaaclab version, ensure that all the folders are listed here
 # and all the required extra are updated
-isaaclab = { git = "https://github.com/isaac-sim/IsaacLab.git", rev = "v2.0.2", subdirectory = "source/isaaclab" }
-isaaclab_assets = { git = "https://github.com/isaac-sim/IsaacLab.git", rev = "v2.0.2", subdirectory = "source/isaaclab_assets" }
-isaaclab_mimic = { git = "https://github.com/isaac-sim/IsaacLab.git", rev = "v2.0.2", subdirectory = "source/isaaclab_mimic", extras = ["all"] }
-isaaclab_rl = { git = "https://github.com/isaac-sim/IsaacLab.git", rev = "v2.0.2", subdirectory = "source/isaaclab_rl", extras = ["all"] }
-isaaclab_tasks = { git = "https://github.com/isaac-sim/IsaacLab.git", rev = "v2.0.2", subdirectory = "source/isaaclab_tasks" }
+# Actually this does not work, as the isaaclab packages do not support being installed in non-editable mode
+# isaaclab = { git = "https://github.com/isaac-sim/IsaacLab.git", rev = "v2.0.2", subdirectory = "source/isaaclab" }
+# isaaclab_assets = { git = "https://github.com/isaac-sim/IsaacLab.git", rev = "v2.0.2", subdirectory = "source/isaaclab_assets" }
+# isaaclab_mimic = { git = "https://github.com/isaac-sim/IsaacLab.git", rev = "v2.0.2", subdirectory = "source/isaaclab_mimic", extras = ["all"] }
+# isaaclab_rl = { git = "https://github.com/isaac-sim/IsaacLab.git", rev = "v2.0.2", subdirectory = "source/isaaclab_rl", extras = ["all"] }
+# isaaclab_tasks = { git = "https://github.com/isaac-sim/IsaacLab.git", rev = "v2.0.2", subdirectory = "source/isaaclab_tasks" }
+#
+# as a workaround, we ask the user to run the download_isaaclab.sh script, and then we install the packages in editable mode
+
+isaaclab = { path = "./IsaacLab/source/isaaclab", editable = true  }
+isaaclab_assets = { path = "./IsaacLab/source/isaaclab_assets", editable = true  }
+isaaclab_mimic = { path = "./IsaacLab/source/isaaclab_mimic", editable = true, extras = ["all"] }
+isaaclab_rl = { path = "./IsaacLab/source/isaaclab_rl", editable = true, extras = ["all"] }
+isaaclab_tasks = { path = "./IsaacLab/source/isaaclab_tasks", editable = true }
